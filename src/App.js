@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
+import actions from './store/actions.js';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -26,8 +28,14 @@ class App extends Component {
                     >
                         Learn React
                     </a>
-                    <button onClick = {() => console.log(this.props.propState.prop1)}>
-                        Click!
+                    <button onClick = {() => console.log(this.props.state)}>
+                        Show Properties
+                    </button>
+                    <button onClick = {() => this.props.exampleAction()}>
+                        Change Property
+                    </button>
+                    <button onClick = {() => this.props.exampleActionTwo()}>
+                        Change Property
                     </button>
                 </header>
             </div>
@@ -37,15 +45,22 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return{
-        propState : state
+        state : state
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        exampleAction : () => dispatch({type : "ACTION_TYPE", payload : "someData"})
+        exampleAction : () => dispatch({type : actions.ACTION_TYPE_ONE, payload : "someData"}),
+        exampleActionTwo : () => dispatch({
+            type : actions.ACTION_TYPE_TWO,
+            payload: {
+                payload1 : "Some data",
+                payload2: "some more data"
+            }
+        })
     };
 }
 
 
-export default connect(mapStateToProps, mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
